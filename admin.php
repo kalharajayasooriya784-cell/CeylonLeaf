@@ -15,26 +15,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_product'])) {
     $name = trim($_POST['name']);
     $price = trim($_POST['price']);
     $description = trim($_POST['description']);
-    
+
     // Handle Image Upload
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['image']['tmp_name'];
         $fileName = $_FILES['image']['name'];
         $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-        
+
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
-        
+
         if (in_array($fileExtension, $allowedExtensions)) {
             // Generate unique filename to avoid overwriting existing files
             $newFileName = time() . '_' . uniqid() . '.' . $fileExtension;
             $uploadFileDir = 'uploads/';
             $dest_path = $uploadFileDir . $newFileName;
-            
+
             if (move_uploaded_file($fileTmpPath, $dest_path)) {
                 // Insert into database
                 $stmt = $conn->prepare("INSERT INTO products (name, image_url, price, description) VALUES (?, ?, ?, ?)");
                 $stmt->bind_param("ssds", $name, $dest_path, $price, $description);
-                
+
                 if ($stmt->execute()) {
                     $message = "Tea product added successfully!";
                 } else {
@@ -57,13 +57,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_product'])) {
 // ==========================================
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
-    
+
     // Get current image path to remove it from server
     $stmt = $conn->prepare("SELECT image_url FROM products WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($row = $result->fetch_assoc()) {
         $imagePath = $row['image_url'];
         // Remove file if it exists in uploads folder
@@ -86,12 +86,14 @@ if (isset($_GET['delete'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - CeylonLeaf</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <?php include 'navbar.php'; ?>
@@ -154,14 +156,14 @@ if (isset($_GET['delete'])) {
                             $products = $conn->query($sql);
 
                             if ($products->num_rows > 0) {
-                                while($row = $products->fetch_assoc()) {
+                                while ($row = $products->fetch_assoc()) {
                                     echo "<tr>";
-                                    echo "<td><img src='".htmlspecialchars($row['image_url'])."' class='admin-thumb' alt='product'></td>";
-                                    echo "<td><strong>".htmlspecialchars($row['name'])."</strong></td>";
-                                    echo "<td>$".number_format($row['price'], 2)."</td>";
+                                    echo "<td><img src='" . htmlspecialchars($row['image_url']) . "' class='admin-thumb' alt='product'></td>";
+                                    echo "<td><strong>" . htmlspecialchars($row['name']) . "</strong></td>";
+                                    echo "<td>$" . number_format($row['price'], 2) . "</td>";
                                     echo "<td class='action-cell'>
-                                            <a href='edit_product.php?id=".$row['id']."' class='btn-edit'>Edit</a>
-                                            <a href='admin.php?delete=".$row['id']."' class='btn-delete' onclick='return confirm(\"Are you sure you want to delete this product?\");'>Delete</a>
+                                            <a href='edit_product.php?id=" . $row['id'] . "' class='btn-edit'>Edit</a>
+                                            <a href='admin.php?delete=" . $row['id'] . "' class='btn-delete' onclick='return confirm(\"Are you sure you want to delete this product?\");'>Delete</a>
                                           </td>";
                                     echo "</tr>";
                                 }
@@ -180,4 +182,5 @@ if (isset($_GET['delete'])) {
 
     <script src="script.js"></script>
 </body>
+
 </html>

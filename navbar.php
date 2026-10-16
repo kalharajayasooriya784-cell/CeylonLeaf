@@ -1,6 +1,6 @@
-<?php 
+<?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start(); 
+    session_start();
 }
 // For testing purposes, you can simulate a logged-in user by uncommenting the line below:
 // $_SESSION['logged_in'] = true; 
@@ -12,8 +12,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="nav-links">
         <a href="#category">Category</a>
         <a href="#aboutus">About Us</a>
-        
-        <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+
+        <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
             <a href="cart.php" class="cart-icon">🛒 Cart</a>
             <a href="history.php">Buying History</a>
             <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle Theme">🌙</button>
@@ -24,7 +24,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <a href="login.php" class="btn-login">Login</a>
         <?php endif; ?>
 
-        
-        
+
+
     </div>
 </nav>

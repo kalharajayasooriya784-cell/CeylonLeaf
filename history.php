@@ -18,6 +18,7 @@ $u_stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,12 +28,16 @@ $u_stmt->close();
         .invoice-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
+
         .invoice-card {
             background: #fff;
             color: #222;
@@ -41,15 +46,20 @@ $u_stmt->close();
             width: 90%;
             max-width: 600px;
             position: relative;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
+
         .close-inv {
             position: absolute;
-            top: 15px; right: 20px;
-            font-size: 24px; cursor: pointer; color: #888;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #888;
         }
     </style>
 </head>
+
 <body>
 
     <?php include 'navbar.php'; ?>
@@ -93,7 +103,7 @@ $u_stmt->close();
                 <p>No purchase history found.</p>
                 <a href="index.php#category" class="auth-btn" style="display:inline-block; width:auto; padding:10px 20px; text-decoration:none;">Shop Now</a>
             </div>
-        <?php endif; 
+        <?php endif;
         $stmt->close();
         ?>
     </div>
@@ -113,18 +123,19 @@ $u_stmt->close();
     <?php include 'footer.php'; ?>
     <script src="script.js"></script>
     <script>
-    function openInvoice(orderId) {
-        document.getElementById('invoiceModal').style.display = 'flex';
-        fetch('get_invoice.php?order_id=' + orderId)
-            .then(res => res.text())
-            .then(data => {
-                document.getElementById('invoiceContent').innerHTML = data;
-            });
-    }
+        function openInvoice(orderId) {
+            document.getElementById('invoiceModal').style.display = 'flex';
+            fetch('get_invoice.php?order_id=' + orderId)
+                .then(res => res.text())
+                .then(data => {
+                    document.getElementById('invoiceContent').innerHTML = data;
+                });
+        }
 
-    function closeInvoice() {
-        document.getElementById('invoiceModal').style.display = 'none';
-    }
+        function closeInvoice() {
+            document.getElementById('invoiceModal').style.display = 'none';
+        }
     </script>
 </body>
+
 </html>

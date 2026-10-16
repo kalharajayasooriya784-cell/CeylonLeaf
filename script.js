@@ -14,28 +14,28 @@ function addToCart(productId, btnElement) {
         method: 'POST',
         body: formData
     })
-    .then(res => {
-        console.log("Response received from server");
-        return res.json();
-    })
-    .then(data => {
-        console.log("Parsed JSON data:", data);
-        alert(data.message);
-        
-        // If user is not logged in, redirect them to login page
-        if (data.status === 'error' && data.message.toLowerCase().includes('log in')) {
-            window.location.href = 'login.php';
-        }
-    })
-    .catch(err => {
-        console.error('Fetch Error:', err);
-        alert('An error occurred. Check your browser console (F12) for details.');
-    });
+        .then(res => {
+            console.log("Response received from server");
+            return res.json();
+        })
+        .then(data => {
+            console.log("Parsed JSON data:", data);
+            alert(data.message);
+
+            // If user is not logged in, redirect them to login page
+            if (data.status === 'error' && data.message.toLowerCase().includes('log in')) {
+                window.location.href = 'login.php';
+            }
+        })
+        .catch(err => {
+            console.error('Fetch Error:', err);
+            alert('An error occurred. Check your browser console (F12) for details.');
+        });
 }
 
 // 2. DOM Content Loaded Initialization
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     // --- Day/Night Mode Logic ---
     const themeToggle = document.getElementById('theme-toggle');
     const currentTheme = localStorage.getItem('theme');
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             let activeTheme = document.documentElement.getAttribute('data-theme');
-            
+
             if (activeTheme === 'dark') {
                 document.documentElement.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- Hero Slider Logic (Changes every 2 seconds) ---
     const slides = document.querySelectorAll('.slide');
     let currentSlide = 0;
-    
+
     if (slides.length > 0) {
         setInterval(() => {
             slides[currentSlide].classList.remove('active');
@@ -101,10 +101,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.querySelector(".close-btn");
 
     document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function () {
             const title = this.querySelector('h3') ? this.querySelector('h3').innerText : '';
             const desc = this.getAttribute('data-description');
-            
+
             if (modalTitle && modalDescription && modal) {
                 modalTitle.innerText = title;
                 modalDescription.innerText = desc;
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Quantity Up and Down Logic ---
     document.querySelectorAll('.qty-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function (e) {
             e.stopPropagation(); // Stops popup modal from opening when clicking +/-
             const isPlus = this.classList.contains('plus');
             const input = this.parentElement.querySelector('.qty-input');
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- Add to Cart Event Listener (Fallback for buttons without inline onclick) ---
     document.querySelectorAll('.add-cart-btn').forEach(button => {
         if (!button.hasAttribute('onclick')) {
-            button.addEventListener('click', function(e) {
+            button.addEventListener('click', function (e) {
                 e.stopPropagation();
                 const card = this.closest('.product-card');
                 const productId = card ? card.getAttribute('data-id') : null;
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (selectAll) {
-            selectAll.addEventListener('change', function() {
+            selectAll.addEventListener('change', function () {
                 checkboxes.forEach(cb => cb.checked = this.checked);
                 calculateCartTotal();
             });
@@ -204,10 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+document.getElementById('checkout-form').addEventListener('submit', function (e) {
     const container = document.getElementById('hidden-inputs-container');
     container.innerHTML = '';
-    
+
     let selectedAny = false;
     document.querySelectorAll('.cart-item-row').forEach(row => {
         const checkbox = row.querySelector('.item-checkbox');

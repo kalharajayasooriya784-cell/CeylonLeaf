@@ -3,7 +3,7 @@ session_start();
 include 'db_connect.php';
 
 // Check login status
-if (!isset($_SESSION['logged_in']) ||$_SESSION['logged_in'] !== true) {
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: login.php");
     exit();
 }
@@ -14,32 +14,38 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['selected_items'])) {
     exit();
 }
 
-$user_id =$_SESSION['user_id'];
-$user_name =$_SESSION['user_name'] ?? 'Valued Customer';
-$selected_cart_ids =$_POST['selected_items'];
+$user_id = $_SESSION['user_id'];
+$user_name = $_SESSION['user_name'] ?? 'Valued Customer';
+$selected_cart_ids = $_POST['selected_items'];
 
 // Fetch selected items to calculate total on server side
-$placeholders = implode(',', array_fill(0, count($selected_cart_ids), '?'));$sql = "SELECT c.id AS cart_id, c.quantity, p.name, p.price, p.id AS product_id 
+$placeholders = implode(',', array_fill(0, count($selected_cart_ids), '?'));
+$sql = "SELECT c.id AS cart_id, c.quantity, p.name, p.price, p.id AS product_id 
         FROM cart c 
         JOIN products p ON c.product_id = p.id 
         WHERE c.user_id = ? AND c.id IN ($placeholders)";
 
-$stmt =$conn->prepare($sql);$types = 'i' . str_repeat('i', count($selected_cart_ids));$params = array_merge([$user_id],$selected_cart_ids);
-$stmt->bind_param($types, ...$params);$stmt->execute();
-$result =$stmt->get_result();
+$stmt = $conn->prepare($sql);
+$types = 'i' . str_repeat('i', count($selected_cart_ids));
+$params = array_merge([$user_id], $selected_cart_ids);
+$stmt->bind_param($types, ...$params);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $subtotal = 0;
 $item_count = 0;
-while ($row = $result->fetch_assoc()) {$subtotal += $row['price'] *$row['quantity'];
-    $item_count +=$row['quantity'];
+while ($row = $result->fetch_assoc()) {
+    $subtotal += $row['price'] * $row['quantity'];
+    $item_count += $row['quantity'];
 }
 $stmt->close();
 
-$vat =$subtotal * 0.10;
-$grand_total = $subtotal +$vat;
+$vat = $subtotal * 0.10;
+$grand_total = $subtotal + $vat;
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,6 +53,7 @@ $grand_total = $subtotal +$vat;
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style1.css">
 </head>
+
 <body class="checkout-body">
 
     <div class="checkout-modal-container">
@@ -71,7 +78,7 @@ $grand_total = $subtotal +$vat;
 
                 <form action="process_payment.php" method="POST">
                     <!-- Selected Cart Item Hidden Inputs -->
-                    <?php foreach ($selected_cart_ids as$cart_id): ?>
+                    <?php foreach ($selected_cart_ids as $cart_id): ?>
                         <input type="hidden" name="selected_items[]" value="<?php echo htmlspecialchars($cart_id); ?>">
                     <?php endforeach; ?>
                     <input type="hidden" name="grand_total" value="<?php echo $grand_total; ?>">
@@ -161,9 +168,10 @@ $grand_total = $subtotal +$vat;
                 timeLeft--;
                 let mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
                 let secs = (timeLeft % 60).toString().padStart(2, '0');
-                if(timerEl) timerEl.innerText = `${mins} : ${secs}`;
+                if (timerEl) timerEl.innerText = `${mins} : ${secs}`;
             }
         }, 1000);
     </script>
 </body>
+
 </html>

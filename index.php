@@ -1,12 +1,14 @@
 <?php include 'db_connect.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CeylonLeaf - Premium Tea</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <!-- Include Navbar -->
@@ -40,26 +42,26 @@
             if ($result && $result->num_rows > 0):
                 while ($row = $result->fetch_assoc()):
             ?>
-                <div class="product-card slide-up" data-description="<?php echo htmlspecialchars($row['description']); ?>">
-                    <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>">
-                    <h3><?php echo htmlspecialchars($row['name']); ?></h3>
-                    <p class="price">$<?php echo number_format($row['price'], 2); ?></p>
-                    
-                    <!-- Action Area: Quantity and Add to Cart -->
-                    <div class="action-area" onclick="event.stopPropagation();">
-                        <div class="qty-control">
-                            <button type="button" class="qty-btn minus">-</button>
-                            <input type="number" class="qty-input" value="1" min="1">
-                            <button type="button" class="qty-btn plus">+</button>
+                    <div class="product-card slide-up" data-description="<?php echo htmlspecialchars($row['description']); ?>">
+                        <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>">
+                        <h3><?php echo htmlspecialchars($row['name']); ?></h3>
+                        <p class="price">$<?php echo number_format($row['price'], 2); ?></p>
+
+                        <!-- Action Area: Quantity and Add to Cart -->
+                        <div class="action-area" onclick="event.stopPropagation();">
+                            <div class="qty-control">
+                                <button type="button" class="qty-btn minus">-</button>
+                                <input type="number" class="qty-input" value="1" min="1">
+                                <button type="button" class="qty-btn plus">+</button>
+                            </div>
+                            <!-- Direct onclick calling the global addToCart function -->
+                            <button type="button" class="add-cart-btn" onclick="addToCart(<?php echo $row['id']; ?>, this)">Add to Cart</button>
                         </div>
-                        <!-- Direct onclick calling the global addToCart function -->
-                        <button type="button" class="add-cart-btn" onclick="addToCart(<?php echo $row['id']; ?>, this)">Add to Cart</button>
                     </div>
-                </div>
-            <?php 
+                <?php
                 endwhile;
-            else: 
-            ?>
+            else:
+                ?>
                 <p>No products available at the moment.</p>
             <?php endif; ?>
         </div>
@@ -85,4 +87,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

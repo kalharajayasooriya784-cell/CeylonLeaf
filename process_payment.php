@@ -92,7 +92,7 @@ if ($order_stmt->execute()) {
     // 6. OWNER (ඔයාට) EMAIL එක යවනවා
     $owner_email = "your_email@gmail.com"; // මෙතනට ඔයාගේ ඇත්තම Email එක දාන්න
     $subject = "New Order Received - #" . $bill_number;
-    
+
     $message = "
     <html>
     <body style='font-family: Arial, sans-serif;'>
@@ -129,4 +129,3 @@ if ($order_stmt->execute()) {
     header("Location: cart.php?payment=error&msg=Database+Error");
     exit();
 }
-?>

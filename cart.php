@@ -62,12 +62,14 @@ $cart_items = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Shopping Cart - CeylonLeaf</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <?php include 'navbar.php'; ?>
@@ -95,14 +97,14 @@ $cart_items = $stmt->get_result();
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($item = $cart_items->fetch_assoc()): 
+                            <?php while ($item = $cart_items->fetch_assoc()):
                                 $subtotal = $item['price'] * $item['quantity'];
                             ?>
                                 <tr class="cart-item-row">
                                     <td>
-                                        <input type="checkbox" class="item-checkbox" checked 
-                                               data-price="<?php echo $item['price']; ?>" 
-                                               data-cart-id="<?php echo $item['cart_id']; ?>">
+                                        <input type="checkbox" class="item-checkbox" checked
+                                            data-price="<?php echo $item['price']; ?>"
+                                            data-cart-id="<?php echo $item['cart_id']; ?>">
                                     </td>
                                     <td class="product-info-cell">
                                         <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="Tea Image">
@@ -112,16 +114,16 @@ $cart_items = $stmt->get_result();
                                     <td>
                                         <form action="cart.php" method="POST" class="cart-qty-form">
                                             <input type="hidden" name="cart_id" value="<?php echo $item['cart_id']; ?>">
-                                            <input type="number" name="quantity" class="cart-qty-input" 
-                                                   value="<?php echo $item['quantity']; ?>" min="1" onchange="this.form.submit()">
+                                            <input type="number" name="quantity" class="cart-qty-input"
+                                                value="<?php echo $item['quantity']; ?>" min="1" onchange="this.form.submit()">
                                             <input type="hidden" name="update_cart" value="1">
                                         </form>
                                     </td>
                                     <td class="item-subtotal">$<span class="subtotal-val"><?php echo number_format($subtotal, 2); ?></span></td>
                                     <td>
-                                        <a href="cart.php?remove=<?php echo $item['cart_id']; ?>" 
-                                           class="btn-delete" 
-                                           onclick="return confirm('Remove item from cart?');">Remove</a>
+                                        <a href="cart.php?remove=<?php echo $item['cart_id']; ?>"
+                                            class="btn-delete"
+                                            onclick="return confirm('Remove item from cart?');">Remove</a>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>
@@ -141,7 +143,7 @@ $cart_items = $stmt->get_result();
                         <span>Total to Pay:</span>
                         <span id="total-amount">$0.00</span>
                     </div>
-                    
+
                     <form action="checkout.php" method="POST" id="checkout-form">
                         <div id="hidden-cart-inputs"></div>
                         <button type="submit" id="checkout-btn" class="auth-btn">Proceed to Buy</button>
@@ -160,23 +162,24 @@ $cart_items = $stmt->get_result();
 
     <script src="script.js"></script>
     <script>
-    document.getElementById('checkout-form')?.addEventListener('submit', function(e) {
-        const container = document.getElementById('hidden-cart-inputs');
-        container.innerHTML = '';
-        
-        document.querySelectorAll('.item-checkbox:checked').forEach(cb => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'selected_items[]'; // Matches checkout.php expectation
-            input.value = cb.getAttribute('data-cart-id');
-            container.appendChild(input);
-        });
+        document.getElementById('checkout-form')?.addEventListener('submit', function(e) {
+            const container = document.getElementById('hidden-cart-inputs');
+            container.innerHTML = '';
 
-        if (container.children.length === 0) {
-            e.preventDefault();
-            alert('Please select at least one item to checkout.');
-        }
-    });
+            document.querySelectorAll('.item-checkbox:checked').forEach(cb => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selected_items[]'; // Matches checkout.php expectation
+                input.value = cb.getAttribute('data-cart-id');
+                container.appendChild(input);
+            });
+
+            if (container.children.length === 0) {
+                e.preventDefault();
+                alert('Please select at least one item to checkout.');
+            }
+        });
     </script>
 </body>
+
 </html>

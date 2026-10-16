@@ -36,8 +36,9 @@ $items_result = $i_stmt->get_result();
 
 <div style="font-size:14px; line-height:1.6; color:#333;">
     <p><strong>Invoice No:</strong> #INV-<?php echo $order['id']; ?><br>
-    <strong>Date & Time:</strong> <?php echo $order['created_at']; ?></p>
-    
+        <strong>Date & Time:</strong> <?php echo $order['created_at']; ?>
+    </p>
+
     <div style="background:#f4f4f4; padding:10px; border-radius:6px; margin:10px 0;">
         <strong>Customer Details:</strong><br>
         Name: <?php echo htmlspecialchars($user['full_name']); ?><br>
@@ -55,8 +56,8 @@ $items_result = $i_stmt->get_result();
             </tr>
         </thead>
         <tbody>
-            <?php 
-            while($item = $items_result->fetch_assoc()): 
+            <?php
+            while ($item = $items_result->fetch_assoc()):
                 $sub = $item['price'] * $item['quantity'];
             ?>
                 <tr>
@@ -65,9 +66,9 @@ $items_result = $i_stmt->get_result();
                     <td style="padding:8px;">$<?php echo number_format($item['price'], 2); ?></td>
                     <td style="padding:8px;">$<?php echo number_format($sub, 2); ?></td>
                 </tr>
-            <?php 
-            endwhile; 
-            $i_stmt->close(); 
+            <?php
+            endwhile;
+            $i_stmt->close();
             ?>
         </tbody>
     </table>

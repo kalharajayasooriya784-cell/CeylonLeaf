@@ -73,12 +73,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update_product'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product - CeylonLeaf Admin</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <?php include 'navbar.php'; ?>
@@ -131,4 +133,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update_product'])) {
 
     <script src="script.js"></script>
 </body>
+
 </html>

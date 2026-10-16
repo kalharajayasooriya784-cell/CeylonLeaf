@@ -32,7 +32,7 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $new_qty = $row['quantity'] + $quantity;
-    
+
     $update_stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE id = ?");
     $update_stmt->bind_param("ii", $new_qty, $row['id']);
     if ($update_stmt->execute()) {
@@ -54,4 +54,3 @@ if ($result->num_rows > 0) {
 
 $stmt->close();
 $conn->close();
-?>

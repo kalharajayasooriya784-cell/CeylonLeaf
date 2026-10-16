@@ -86,7 +86,8 @@
     display: block;
 }
 
-.form-group-custom, .card-input-box {
+.form-group-custom,
+.card-input-box {
     margin-bottom: 15px;
 }
 
@@ -98,7 +99,8 @@
     color: #333;
 }
 
-.form-group-custom input, .card-input-box input {
+.form-group-custom input,
+.card-input-box input {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid #ccc;
@@ -157,7 +159,7 @@
     color: #ffffff;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
 }
 
