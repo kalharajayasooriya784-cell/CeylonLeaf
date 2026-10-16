@@ -1,11 +1,13 @@
 <?php
-$servername = "localhost";
-$username = "root"; // Your phpMyAdmin username
-$password = ""; // Your phpMyAdmin password
-$dbname = "ceylonleaf_db";
+$host = "sql210.infinityfree.com";
+$username = "if0_43190492";
+$password = "Sadeepa123D";
+$database = "if0_43190492_ceylonleaf_db";
+$port = 3306;
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = mysqli_connect($host, $username, $password, $database, $port);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
+?>
